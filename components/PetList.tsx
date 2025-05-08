@@ -10,14 +10,24 @@ import pets from "@/data/pets";
 import PetItem from "./PetItem";
 
 const PetList = () => {
-  const petList = pets.map((pet) => <PetItem key={pet.id} pet={pet} />);
+  const [text, setText] = useState("");
+  const petList = pets
+    .filter((element) => element.name && element.name.includes(text))
+    .map((pet) => <PetItem key={pet.id} pet={pet} />);
+
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       style={styles.containerStyle}
     >
       {/* Search Input */}
-      <TextInput placeholder="Search for a pet" style={styles.searchInput} />
+      <TextInput
+        placeholder="Search for a pet"
+        style={styles.searchInput}
+        onChangeText={(string) => {
+          setText(string);
+        }}
+      />
 
       {/* Filter by type */}
       <ScrollView horizontal contentContainerStyle={styles.filterContainer}>
